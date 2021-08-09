@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+</head>
+<body>
+    <header>
+        <h2>Books registered</h2>
+        <a th:href="@{/setBook}">Register a new book</a>
+        <br/>
+        <p th:text="${#request.getParameter('redirectMessage')}"></p>
+    </header>
+    <main>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Publisher</th>
+                <th>Year</th>
+                <th>Number of Pages</th>
+            </tr>
+            <tr th:each="book : ${activeBooks}">
+                <td th:text="${book.name}">Name</td>
+                <td th:text="${book.author}">Author</td>
+                <td th:text="${book.genre}">Genre</td>
+                <td th:text="${book.publisher}">Publisher</td>
+                <td th:text="${book.year}">Year</td>
+                <td th:text="${book.pageNumber}">Number of Pages</td>
+                <td><a th:href="@{'/deleteBook/'+${book.id}}">Remove</a></td>
+                <td><a th:href="@{'/editBook/'+${book.id}}">Edit</a></td>
+                <td><img th:src="@{'/images/'+${book.imgUri}}" width="100px" alt="book cover" /></td>
+            </tr>
+        </table>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
