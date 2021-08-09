@@ -47,25 +47,26 @@ public class AdminController {
     @RequestMapping(value = "/saveBook", method = RequestMethod.POST)
     public String saveBook(@ModelAttribute @Valid Book book, Errors errors, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAtt) {
         if(errors.hasErrors()) {
-            System.out.println(errors);
+            redirectAtt.addAttribute("redirectMessage","book send has some problems");
             return "bookForm";
         }else {
             book.setImgUri(book.getId() + file.getOriginalFilename());
             this.bookService.save(book);
             this.fileStorageService.save(file, book.getId());
+            redirectAtt.addAttribute("redirectMessage","book registered");
         }
-        return "/index";
+        return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/deleteBook", method = RequestMethod.GET)
-    public String deleteBook(Model model, RedirectAttributes redirectAtt, @PathVariable(name = "id") Long id) {
+    @RequestMapping(value = "/deleteBook/{id}", method = RequestMethod.GET)
+    public String deleteBook(RedirectAttributes redirectAtt, @PathVariable(name = "id") Long id) {
         bookService.delete(id);
         redirectAtt.addAttribute("redirectMessage", "book has been deleted");
-        return "redirect:/index";
+        return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/editBook", method = RequestMethod.GET)
-    public ModelAndView editBook(Model model, @PathVariable(name = "id") Long id) {
+    @RequestMapping(value = "/editBook/{id}", method = RequestMethod.GET)
+    public ModelAndView editBook(@PathVariable(name = "id") Long id) {
         Book book = this.bookService.getById(id);
         ModelAndView modelAndView = new ModelAndView("bookForm");
         modelAndView.addObject("book", book);
