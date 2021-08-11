@@ -50,9 +50,15 @@ public class AdminController {
             redirectAtt.addAttribute("redirectMessage","book send has some problems");
             return "bookForm";
         }else {
-            book.setImgUri(book.getId() + file.getOriginalFilename());
+            if(file.isEmpty()) {
+                String currentFileName = this.bookService.getById(book.getId()).getImgUri();
+                book.setImgUri(currentFileName);
+            } else {
+                Integer hashCode = hashCode();
+                book.setImgUri(hashCode + file.getOriginalFilename());
+                this.fileStorageService.save(file, hashCode);
+            }
             this.bookService.save(book);
-            this.fileStorageService.save(file, book.getId());
             redirectAtt.addAttribute("redirectMessage","book registered");
         }
         return "redirect:/admin";

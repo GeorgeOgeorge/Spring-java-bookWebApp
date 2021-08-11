@@ -5,6 +5,18 @@
     <title>WebLibrary</title>
 </head>
 <body>
+    <header>
 
+    </header>
+    <main>
+        <p th:text="${#request.getParameter('redirectMessage')}"></p>
+        <div th:if="${!session.isEmpty()}">
+            <p th:text="'your cart has '+${session.cart.size()}+' books'"></p>
+        </div>
+        <table th:replace="fragments/commons :: ListOfActiveBooks(${activeBooks})"></table>
+    </main>
+    <footer>
+        <a th:href="@{'/yourCart'}">your cart</a>
+    </footer>
 </body>
 </html>

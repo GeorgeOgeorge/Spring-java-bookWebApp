@@ -27,9 +27,9 @@ public class FileStorageService {
         }
     }
 
-    public void save(MultipartFile file, Long bookId) {
+    public void save(MultipartFile file, Integer hashCode) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(bookId + file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), this.root.resolve(hashCode + file.getOriginalFilename()));
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
