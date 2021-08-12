@@ -30,7 +30,7 @@ public class UserController {
         this.bookService = bookService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/", method = RequestMethod.GET)
     public String homePage(Model model, HttpServletResponse response) {
         List<Book> activeBooks = this.bookService.findAllActiveBooks();
         model.addAttribute("activeBooks", activeBooks);
@@ -40,7 +40,7 @@ public class UserController {
         cookie.setMaxAge(60*60*24);
         response.addCookie(cookie);
         return "index";
-    }
+    }*/
 
     @RequestMapping(value = "/addToCart/{id}", method = RequestMethod.GET)
     public String addToCart(@PathVariable(name = "id") Long id, HttpServletRequest request, RedirectAttributes redirectAtt) {
