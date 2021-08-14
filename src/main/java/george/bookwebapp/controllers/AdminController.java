@@ -39,8 +39,7 @@ public class AdminController {
 
     @RequestMapping(value = "/setBook")
     public String setBook(Model model) {
-        Book book = new Book();
-        model.addAttribute("book", book);
+        model.addAttribute("book", new Book());
         return "bookForm";
     }
 

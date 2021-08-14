@@ -1,42 +1,66 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:fragment="nomeDoFragment">
-    <meta charset="UTF-8">
-    <title>Admin Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
+<footer th:fragment="genericFooter" class="py-1 my-1 generic-footer">
+    <ul class="nav justify-content-center border-top pb-1 mb-1">
+        <li class="nav-item"><a href="https://github.com/GeorgeOgeorge" class="nav-link px-2 text-muted">My GitHub</a></li>
+        <li class="nav-item"><a href="https://www.linkedin.com/in/george-morais-9951291a2/" class="nav-link px-2 text-muted">My LinkedIn</a></li>
+    </ul>
+    <p class="text-center text-muted">Developed by George Mendonça</p>
 
-<footer th:fragment="">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </footer>
 
-<table th:fragment="ListOfActiveBooks(activeBooks)">
-    <tr>
-        <th>Name</th>
-        <th>Author</th>
-        <th>Genre</th>
-        <th>Publisher</th>
-        <th>Year</th>
-        <th>Number of Pages</th>
-    </tr>
-    <tr th:each="book : ${activeBooks}">
-        <td th:text="${book.name}">Name</td>
-        <td th:text="${book.author}">Author</td>
-        <td th:text="${book.genre}">Genre</td>
-        <td th:text="${book.publisher}">Publisher</td>
-        <td th:text="${book.year}">Year</td>
-        <td th:text="${book.pageNumber}">Number of Pages</td>
-        <td><img th:src="@{'/images/'+${book.imgUri}}" width="100px" alt="book cover" /></td>
-        <div th:if="${#httpServletRequest.requestURI} == '/admin' ">
-            <td><a th:href="@{'/deleteBook/'+${book.id}}">Remove</a></td>
-            <td><a th:href="@{'/editBook/'+${book.id}}">Edit</a></td>
+<header th:fragment="genericHeader" id="generic-header" class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1 mb-1 border-bottom fixed-top">
+    <a th:href="@{/}" class="d-flex align-items-center col-md-1.5 mb-1 mb-md-0 text-dark text-decoration-none">
+        <span class="fs-4">My_Library</span>
+    </a>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li class="nav-item">
+            <a th:if="${#httpServletRequest.requestURI} == '/'" class="nav-link px-2 active" aria-current="page" th:href="@{/}">Home</a>
+            <a th:if="${#httpServletRequest.requestURI} != '/'" class="nav-link px-2" aria-current="page" th:href="@{/}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a th:if="${#httpServletRequest.requestURI} == '/admin'" class="nav-link px-2 active" aria-current="page" th:href="@{/admin}">Admin Page</a>
+            <a th:if="${#httpServletRequest.requestURI} != '/admin'" class="nav-link px-2" aria-current="page" th:href="@{/admin}">Admin Page</a>
+        </li>
+        <div th:if="${#httpServletRequest.requestURI} == '/admin'" >
+            <a class="nav-link px-2 active" aria-current="page" th:href="@{/setBook}">Register a new book</a>
         </div>
-        <div th:if="${#httpServletRequest.requestURI} == '/' or ${#httpServletRequest.requestURI} == '/addToCart' ">
-            <td><a th:href="@{'/addToCart/'+${book.id}}">Add to Cart</a></td>
+        <div th:if="${!session.isEmpty()}">
+            <li class="nav-item">
+                <a th:if="${#httpServletRequest.requestURI} == '/yourCart' and ${session.cart} != null" class="nav-link px-2 active" aria-current="page" th:href="@{/yourCart}">cart<span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${session.cart.size()}">Cart</span></a>
+                <a th:if="${#httpServletRequest.requestURI} != '/yourCart' and ${session.cart} != null" class="nav-link px-2" aria-current="page" th:href="@{/yourCart}">cart<span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${session.cart.size()}">Cart</span></a>
+            </li>
         </div>
-    </tr>
-    <div th:if="${#httpServletRequest.requestURI} == '/yourCart'">
-        <td><a th:href="@{'/finishCart'}">Finish</a></td>
+    </ul>
+</header>
+
+<div th:fragment="genericCardList(activeBooks)">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div th:each="book : ${activeBooks}">
+            <div class="col">
+                <div class="card h-100">
+                    <img th:src="@{'/images/'+${book.imgUri}}" class="card-img-top" alt="Book cover">
+                    <div class="card-body">
+                        <h5 th:text="${book.name} + ' - ' + ${book.author}" class="card-title"></h5>
+                        <p th:text="'book genre: ' + ${book.genre}" class="card-text"></p>
+                        <p th:text="'book publisher: ' + ${book.publisher}" class="card-text"></p>
+                        <div th:if="${#httpServletRequest.requestURI} == '/admin' ">
+                            <a th:href="@{'/deleteBook/'+${book.id}}" class="btn btn-primary">Remove</a>
+                            <a th:href="@{'/editBook/'+${book.id}}" class="btn btn-primary">Edit</a>
+                        </div>
+                        <div th:if="${#httpServletRequest.requestURI} == '/' or ${#httpServletRequest.requestURI} == '/addToCart' ">
+                            <td><a th:href="@{'/addToCart/'+${book.id}}" class="btn btn-primary" >Add to Cart</a></td>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</table>
+    <div th:if="${#httpServletRequest.requestURI} == '/yourCart'">
+        <td><a th:href="@{'/finishCart'}" class="btn btn-primary" >Checkout</a></td>
+    </div>
+</div>
+

@@ -1,0 +1,31 @@
+#generic-header {
+    background-color: #dee2e6;
+}
+
+#background {
+    background-color: #e2e7e8;
+    width: auto;
+    height: auto;
+}
+
+#structure {
+    background-color: rgb(247, 240, 240);
+    width: auto;
+    margin-top: 4.5rem;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#main-content {
+    width: auto;
+    height: auto;
+}
+
+.generic-alert {
+    margin-top: 0.5rem;
+}
+
+.generic-footer{
+    margin-left: 10%;
+    margin-right: 10%;
+}

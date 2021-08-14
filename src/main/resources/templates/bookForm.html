@@ -1,42 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/commons :: nomeDoFragment">
-
+<head>
+    <meta charset="UTF-8">
+    <title>WebLibrary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/style.css" rel="stylesheet" >
 </head>
 <body>
-    <main>
-        <form method="post" th:object="${book}" th:action="@{/saveBook}" enctype="multipart/form-data">
-            <input type="text" readonly name="id" th:field="*{id}" hidden><br/>
-            <label>
-                Name:<input type="text" minlength="2" th:maxlength="50" th:required="required" name="name" th:field="*{name}">
-            </label> <br/>
-            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"> </p>
-            <label>
-                Author:<input type="text" minlength="2" th:maxlength="50" th:required="required" name="author" th:field="*{author}">
-            </label> <br/>
-            <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"> </p>
-            <label>
-                Genre:<input type="text" minlength="2" th:maxlength="50" th:required="required" name="genre" th:field="*{genre}">
-            </label> <br/>
-            <p th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"> </p>
-            <label>
-                Publisher:<input type="text" minlength="2" th:maxlength="50" th:required="required" name="publisher" th:field="*{publisher}"> <br/>
-            </label> <br/>
-            <p th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}"> </p>
-            <label>
-                Year of Publishing: <input type="number" th:min="1450" th:max="2100" th:required="required" name="year" th:field="*{year}"> <br/>
-            </label> <br/>
-            <p th:if="${#fields.hasErrors('year')}" th:errors="*{year}"> </p>
-            <label>
-                Number of Pages: <input type="number" th:min="1" th:max="1500" th:required="required" name="pageNumber" th:field="*{pageNumber}"> <br/>
-            </label> <br/>
-            <label>
-                Book cover: <input type="file" name="file" > <br/>
-            </label> <br/>
-            <button type="submit">save book</button>
-        </form>
-    </main>
-    <footer>
-    </footer>
+<div id="background">
+    <header th:replace="fragments/commons :: genericHeader"></header>
+    <div id="structure">
+        <main id="main-content">
+            <form method="post" th:object="${book}" th:action="@{/saveBook}" enctype="multipart/form-data">
+                <input type="text" readonly name="id" th:field="*{id}" hidden><br/>
+                <label>
+                    Name:<input type="text" minlength="2" th:maxlength="50" th:required="required" name="name" th:field="*{name}">
+                </label> <br/>
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"> </p>
+                <label>
+                    Author:<input type="text" minlength="2" th:maxlength="50" th:required="required" name="author" th:field="*{author}">
+                </label> <br/>
+                <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"> </p>
+                <label>
+                    Genre:<input type="text" minlength="2" th:maxlength="50" th:required="required" name="genre" th:field="*{genre}">
+                </label> <br/>
+                <p th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"> </p>
+                <label>
+                    Publisher:<input type="text" minlength="2" th:maxlength="50" th:required="required" name="publisher" th:field="*{publisher}"> <br/>
+                </label> <br/>
+                <p th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}"> </p>
+                <label>
+                    Year of Publishing: <input type="number" th:min="1450" th:max="2100" th:required="required" name="year" th:field="*{year}"> <br/>
+                </label> <br/>
+                <p th:if="${#fields.hasErrors('year')}" th:errors="*{year}"> </p>
+                <label>
+                    Number of Pages: <input type="number" th:min="1" th:max="1500" th:required="required" name="pageNumber" th:field="*{pageNumber}"> <br/>
+                </label> <br/>
+                <label>
+                    Book cover: <input type="file" name="file" > <br/>
+                </label> <br/>
+                <button type="submit">save book</button>
+            </form>
+        </main>
+        <footer th:replace="fragments/commons :: genericFooter"></footer>
+    </div>
+</div>
+
 </body>
 </html>
